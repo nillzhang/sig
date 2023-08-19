@@ -1,0 +1,286 @@
+#include<iostream>
+#include<fstream>
+#include<cstring>
+using namespace std;
+int n = 3;//学生人数
+class student
+{
+	char num[8][3];
+	char name[8][10];
+	char age[8][5];
+	char sex[8][5];
+	char birthday[8][10];
+	char address[8][30];
+	char phone[8][10];
+	char email[8][10];
+public:
+	void  chushihua()//初始化学生信息
+	{
+		ifstream ifil;
+		ifil.open("学生信息.txt");
+		for (int i = 0; i < 3; i++) ifil >> num[i];
+		for (int i = 0; i < 3; i++) ifil >> name[i];
+		for (int i = 0; i < 3; i++) ifil >> age[i];
+		for (int i = 0; i < 3; i++) ifil >> sex[i];
+		for (int i = 0; i < 3; i++) ifil >> birthday[i];
+		for (int i = 0; i < 3; i++) ifil >> address[i];
+		for (int i = 0; i < 3; i++) ifil >> phone[i];
+		for (int i = 0; i < 3; i++) ifil >> email[i];
+	};
+	void showall()//打印学生信息
+	{
+		int m = 0;
+		while (m < n)
+		{
+			cout << "学号：" << num[m] << endl;
+			cout << "姓名：" << name[m] << endl;
+			cout << "年龄：" << age[m] << endl;
+			cout << "性别：" << sex[m] << endl;
+			cout << "生日：" << birthday[m] << endl;
+			cout << "住址：" << address[m] << endl;
+			cout << "电话号码：" << phone[m] << endl;
+			cout << "邮箱：" << email[m] << endl;
+			cout << endl;
+			m++;
+		}
+	};
+	void showone(int d)//打印一个学生信息
+	{
+		cout << "该学生信息如下：" << endl;
+		cout << "学号：" << num[d] << endl;
+		cout << "姓名：" << name[d] << endl;
+		cout << "年龄：" << age[d] << endl;
+		cout << "性别：" << sex[d] << endl;
+		cout << "生日：" << birthday[d] << endl;
+		cout << "住址：" << address[d] << endl;
+		cout << "电话号码：" << phone[d] << endl;
+		cout << "邮箱：" << email[d] << endl;
+
+	};
+	void luru()//录入学生信息
+	{
+		while (1)
+		{
+			cout << "请输入学生学号：" << endl;
+			cin >> num[n];
+			int sig0;
+			for (int i = 0; i < n; i++)
+			{
+				sig0 = strcmp(num[i], num[n]);
+				if (sig0 == 0) { cout << "该学号已存在，录入失败" << endl; break; }
+			}
+			if (sig0 == 0)break;
+			cout << "请输入学生姓名；" << endl;
+			cin >> name[n];
+			cout << "请输入学生年龄；" << endl;
+			cin >> age[n];
+			cout << "请输入学生性别；" << endl;
+			cin >> sex[n];
+			cout << "请输入学生生日；" << endl;
+			cin >> birthday[n];
+			cout << "请输入学生住址；" << endl;
+			cin >> address[n];
+			cout << "请输入学生电话号码；" << endl;
+			cin >> phone[n];
+			cout << "请输入学生邮箱；" << endl;
+			cin >> email[n];
+
+			ofstream ifile;
+			ifile.open("学生信息.txt");
+			ifile << num[n] << " " << name[n] << " " << age[n] << " " << sex[n] << " " << birthday[n] << " " << address[n] << " " << phone[n] << " " << email[n];
+			n++;
+
+			cout << "是否继续录入学生信息？ 是（Y),否（N）" << endl;
+			char a;
+			cin >> a;
+			if (a == 'y')continue;
+			else { cout << "学生信息录入成功！" << endl; showone(n - 1); break; }
+		}
+	};
+	void search()//查找学生信息
+	{
+		cout << "请选择查找方式；1、学号查找；2 姓名查找" << endl;
+		int b;
+		cin >> b;
+		int c = -1;
+		char aa[2][10];
+		if (b == 1)
+		{
+			cout << "请输入您要查找的学号" << endl;
+			cin >> aa[0];
+
+			for (int i = 0; i < n; i++)
+			{
+				int sig1 = strcmp(num[i], aa[0]);
+				if (sig1 == 0) { c = i; break; }
+			}
+			if (c < 0) cout << "没有找到该学生" << endl;
+			else showone(c);
+		}
+		if (b == 2)
+		{
+			cout << "请输入您要查找的姓名" << endl;
+			cin >> aa[1];
+			c = -1;
+			for (int i = 0; i < n; i++)
+			{
+				int sig1 = strcmp(name[i], aa[1]);
+				if (sig1 == 0) { c = i; break; }
+			}
+			if (c < 0) cout << "没有找到该学生" << endl;
+			else showone(c);
+		}
+	};
+	void change()//修改学生信息
+	{
+		cout << "请选择查找方式；1、学号查找；2 姓名查找" << endl;
+		int b;
+		cin >> b;
+		int c = -1;
+		char aa[4][10];
+		if (b == 1)
+		{
+			cout << "请输入您要查找的学号" << endl;
+			cin >> aa[0];
+
+			for (int i = 0; i < n; i++)
+			{
+				int sig1 = strcmp(num[i], aa[0]);
+				if (sig1 == 0) { c = i; break; }
+			}
+			if (c < 0) cout << "没有找到该学生" << endl;
+			else {
+				cout << "请选择要修改的信息" << endl;
+				cout << "1年龄" << endl;
+				cout << "2性别" << endl;
+				cout << "3生日" << endl;
+				cout << "4住址" << endl;
+				cout << "5电话号码" << endl;
+				cout << "6邮箱" << endl;
+				int d;
+				cin >> d;
+				switch (d)
+				{
+				case(1):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(age[c], aa[3]); break;
+				case(2):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(sex[c], aa[3]); break;
+				case(3):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(birthday[c], aa[3]); break;
+				case(4):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(address[c], aa[3]); break;
+				case(5):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(phone[c], aa[3]); break;
+				case(6):cout << "请输入要修改的信息" << endl; cin >> aa[3]; strcpy_s(email[c], aa[3]); break;
+				}
+				cout << "修改成功" << endl;
+				showone(c);
+			}
+		}
+		if (b == 2)
+		{
+			cout << "请输入您要查找的姓名" << endl;
+			cin >> aa[1];
+			c = -1;
+			for (int i = 0; i < n; i++)
+			{
+				int sig1 = strcmp(name[i], aa[1]);
+				if (sig1 == 0) { c = i; break; }
+			}
+			if (c < 0) cout << "没有找到该学生" << endl;
+			else {
+				cout << "请选择要修改的信息" << endl;
+				cout << "1年龄" << endl;
+				cout << "2性别" << endl;
+				cout << "3生日" << endl;
+				cout << "4住址" << endl;
+				cout << "5电话号码" << endl;
+				cout << "6邮箱" << endl;
+				int d;
+				cin >> d;
+				switch (d)
+				{
+				case(1):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(age[c], aa[3]); break;
+				case(2):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(sex[c], aa[3]); break;
+				case(3):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(birthday[c], aa[3]); break;
+				case(4):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(address[c], aa[3]); break;
+				case(5):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(phone[c], aa[3]); break;
+				case(6):cout << "请输入修改后的信息" << endl; cin >> aa[3]; strcpy_s(email[c], aa[3]); break;
+				}
+				cout << "修改成功" << endl;
+				showone(c);
+			}
+		}
+
+	}
+	void shanchu()//删除学生信息
+	{
+		cout << "请输入要删除的学生学号：" << endl;
+		char x[2][8];
+		cin >> x[0];
+		int f = -1;
+		for (int i = 0; i < n; i++)
+		{
+			int sig1 = strcmp(num[i], x[0]);
+			if (sig1 == 0) { f = i; break; }
+		}
+		if (f < 0) cout << "没有找到该学生" << endl;
+		else
+		{
+			cout << "请输入该学生姓名：" << endl;
+			cin >> x[1];
+			int sig2 = strcmp(x[1], name[f]);
+			if (sig2 != 0) cout << "姓名与学号不符，身份验证失败！" << endl;
+			else
+			{
+				for (int i = f; i < n - 1; i++)
+				{
+					strcpy_s(name[f], name[f + 1]);
+					strcpy_s(num[f], num[f + 1]);
+					strcpy_s(age[f], age[f + 1]);
+					strcpy_s(sex[f], sex[f + 1]);
+					strcpy_s(birthday[f], birthday[f + 1]);
+					strcpy_s(address[f], address[f + 1]);
+					strcpy_s(phone[f], phone[f + 1]);
+					strcpy_s(email[f], email[f + 1]);
+				}
+				n--;
+				cout << "学生信息删除成功！" << endl;
+			}
+
+		}
+	};
+};
+void menu()
+{
+	cout << "-------------请选择您要进行的操作-------------" << endl;
+	cout << "****************1-录入学生信息****************" << endl;
+	cout << "****************2-浏览学生信息****************" << endl;
+	cout << "****************3-查找学生信息****************" << endl;
+	cout << "****************4-修改学生信息****************" << endl;
+	cout << "****************5-删除学生信息****************" << endl;
+}
+int main()
+{
+	cout << "            学生信息管理系统欢迎您！" << endl;
+	cout << endl;
+	menu();
+	ofstream ifile;
+	ifile.open("学生信息.txt");
+	ifile << "01" << " " << "02" << " " << "03"
+		<< " " << "张三" << " " << "李四" << " " << "王五"
+		<< " " << "16" << " " << "17" << " " << "18"
+		<< " " << "男" << " " << "女" << " " << "男"
+		<< " " << "2007.1.1" << " " << "2006.2.2" << " " << "2005.3.3"
+		<< " " << "湖北武汉" << " " << "北京" << " " << "上海"
+		<< " " << "12345678" << " " << "23456789" << " " << "34567890"
+		<< " " << "123456" << " " << "234567" << " " << "345678";
+	ifile.close();
+	student ss;
+	ss.chushihua();
+	int choice1;
+	cin >> choice1;
+	switch (choice1)
+	{
+	case(1):ss.luru(); break;
+	case(2):ss.showall(); break;
+	case(3):ss.search(); break;
+	case(4):ss.change(); break;
+	case(5):ss.shanchu(); break;
+	}
+}
